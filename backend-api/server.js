@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
 import axios from 'axios';
-
+import cors from 'cors';
 import authMiddleware from './authMiddleware.js';
 
 // create app
@@ -10,6 +10,7 @@ const app = express();
 const API_URL = "http://20.244.56.144/train/trains"
 
 app.use(express.json());
+app.use(cors());
 
 
 app.get('/train',authMiddleware ,async (req, res) => {
