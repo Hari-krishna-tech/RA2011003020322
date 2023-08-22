@@ -21,10 +21,11 @@ app.get('/train',authMiddleware ,async (req, res) => {
         } 
     });
 
-
+    console.log(data);
 const currentTime = new Date();
 
 // filter trains that are have departure time less than 30 minutes from now
+console.log(currentTime)
 const filteredTrains = data.filter(train => {
   const departureDateTime = new Date();
   departureDateTime.setHours(train.departureTime.Hours);
@@ -71,7 +72,18 @@ const sortedTrains = filteredTrains.sort((a, b) => {
 
 });
 
+app.get('/train/:id',authMiddleware, async (req, res) => {
+    const {id} = req.params;
+    const {data} = await axios.get(`${API_URL}/${id}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${req.token}`
+        }
+    });
 
+    res.send(data);
+
+});
 
 app.listen(process.env.PORT|| 3000, () => {
     console.log(`Server is running on port ${process.env.PORT||3000}`);
